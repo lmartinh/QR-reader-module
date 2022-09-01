@@ -81,7 +81,7 @@ internal class QrReaderCameraManager(
 
         val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
         val previewView = getPreviewUseCase()
-        val imageRecognizer = getImageAnalyzerUseCase(onQrReaderResult)
+        val imageRecognizer = getImageAnalyzerUseCase()
 
         cameraProvider.unbindAll()
 
@@ -110,7 +110,7 @@ internal class QrReaderCameraManager(
             .build()
     }
 
-    private fun getImageAnalyzerUseCase(onQrReaderResult: (result: String) -> Unit): ImageAnalysis {
+    private fun getImageAnalyzerUseCase(): ImageAnalysis {
         val analyzer = ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .setImageQueueDepth(10)
@@ -136,7 +136,12 @@ internal class QrReaderCameraManager(
                     val result = reader.decode(binaryBitmap)
                     onQrReaderResult(result.text)
                 } catch (exception: Exception) {
-                    Timber.e("Set camera analyzer error: $exception")
+                    if (exception is com.google.zxing.NotFoundException){
+                        Timber.e("QR NOT FOUND: $exception")
+                    }else{
+                        Timber.e("Set camera analyzer error: $exception")
+                    }
+
                 }
             }
         )

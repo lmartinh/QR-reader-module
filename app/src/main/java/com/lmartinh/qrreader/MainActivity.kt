@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         qrReader.init(this)
 
         binding.mainButton.setOnClickListener {
-            qrReader.launch(5000){ qrReaderResponse ->
+            qrReader.launch(15000){ qrReaderResponse ->
                 when(qrReaderResponse){
                     is QrReaderError -> {
                         Timber.d("QR READER ERROR: ${qrReaderResponse.exception}")

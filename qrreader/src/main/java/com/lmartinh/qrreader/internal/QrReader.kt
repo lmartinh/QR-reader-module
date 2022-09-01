@@ -1,5 +1,6 @@
 package com.lmartinh.qrreader.internal
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.ComponentActivity
@@ -24,10 +25,22 @@ class QrReader {
     fun init(activity: ComponentActivity) {
         this.context = activity
 
-        register = activity.registerForActivityResult(contract) { result ->
+        register = activity.registerForActivityResult(contract) { activityResult ->
+            if (activityResult.resultCode == Activity.RESULT_OK || activityResult.resultCode == Activity.RESULT_CANCELED) {
+                if (activityResult.data != null) {
+                    val qrResult = activityResult.data.let {
+                        it?.getParcelableExtra<QrReaderResponse>("result")
+                    }
+                    if (qrResult != null) {
+                        output?.invoke(qrResult)
 
+                    } else {
+                        output?.invoke(QrReaderError(QrException.CAMERA_MANAGER_ERROR))
+                    }
+
+                }
+            }
         }
-
     }
 
     fun launch(timeout: Long = TIMEOUT_15000, output: ((QrReaderResponse) -> Unit)) {

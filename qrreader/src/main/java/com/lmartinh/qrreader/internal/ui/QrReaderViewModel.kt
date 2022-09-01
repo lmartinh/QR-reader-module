@@ -28,7 +28,7 @@ internal class QrReaderViewModel: ViewModel() {
             cameraManager.start(onQrReaderResult = ::onQrReaderResult)
             startTimeout(timeout)
         }catch (exception: Exception){
-            _error.value = QrException.CAMERA_MANAGER_ERROR
+            _error.postValue(QrException.CAMERA_MANAGER_ERROR)
         }
 
     }
@@ -36,14 +36,14 @@ internal class QrReaderViewModel: ViewModel() {
     private fun startTimeout(timeout: Long) {
         timeoutHandler.postDelayed(
             {
-                _error.value = QrException.TIMEOUT
+                _error.postValue(QrException.TIMEOUT)
             },
             timeout
         )
     }
 
     private fun onQrReaderResult(result: String) {
-        _qrResult.value = result
+        _qrResult.postValue(result)
         stopTimeout()
         stopCamera()
     }

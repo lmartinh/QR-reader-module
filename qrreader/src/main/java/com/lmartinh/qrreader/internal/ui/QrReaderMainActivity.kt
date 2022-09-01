@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lmartinh.qrreader.R
+import com.lmartinh.qrreader.internal.QrException
+import com.lmartinh.qrreader.internal.QrReaderError
 import timber.log.Timber
 
 internal class QrReaderMainActivity : AppCompatActivity() {
@@ -46,10 +48,10 @@ internal class QrReaderMainActivity : AppCompatActivity() {
                     .setPositiveButton(resources.getString(R.string.qr_reader_text_exit)) { dialog, _ ->
                         dialog.dismiss()
                         val output = Intent()
-                       /* output.putExtra(
-                            Constants.RESULT_EXTRA_KEY,
-                            QrExtractionResult(exception = QrException.CAMERA_PERMISSION_ERROR)
-                        )*/
+                        output.putExtra(
+                            "result",
+                            QrReaderError(QrException.PERMISSION_NOT_GRANTED)
+                        )
                         setResult(RESULT_OK, output)
                         this.finish()
                     }

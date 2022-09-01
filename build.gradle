@@ -1,7 +1,7 @@
 buildscript {
     ext {
         camera_version = "1.2.0-alpha03"
-        zxing_version = "3.3.0"
+        zxing_version = "3.3.3"
         timber_version = "5.0.1"
         lottie_version = "3.7.0"
         androidx_lifecycle_version = "2.5.0"
