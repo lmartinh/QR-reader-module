@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/qr_reader_navigation"
+    app:startDestination="@id/qrReaderFragment">
+
+    <fragment
+        android:id="@+id/qrReaderFragment"
+        android:name="com.lmartinh.qrreader.internal.ui.QrReaderFragment"
+        android:label="fragment_qr_reader"
+        tools:layout="@layout/fragment_qr_reader" />
+</navigation>

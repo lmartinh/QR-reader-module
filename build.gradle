@@ -4,6 +4,13 @@ buildscript {
         zxing_version = "3.3.0"
         timber_version = "5.0.1"
         lottie_version = "3.7.0"
+        androidx_lifecycle_version = "2.5.0"
+        androidx_navigation_version = "2.5.1"
+    }
+
+    dependencies {
+        def nav_version = "2.4.2"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     }
 }
 plugins {

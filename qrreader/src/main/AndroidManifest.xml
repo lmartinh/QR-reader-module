@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lmartinh.qrreader">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application>
         <activity
-            android:name=".QrReaderMainActivity"
+            android:name=".internal.ui.QrReaderMainActivity"
             android:exported="false" />
     </application>
 
