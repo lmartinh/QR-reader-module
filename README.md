@@ -1,2 +1,2 @@
 # QR-reader-module
-Simple QR reader library with CameraX
+Simple QR reader library with CameraX and Zxing
