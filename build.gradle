@@ -2,7 +2,8 @@ buildscript {
     ext {
         camera_version = "1.2.0-alpha03"
         zxing_version = "3.3.0"
-        timber_version = '5.0.1'
+        timber_version = "5.0.1"
+        lottie_version = "3.7.0"
     }
 }
 plugins {

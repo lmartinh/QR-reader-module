@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QR Reader</string>
+    <string name="main_qr_reader_button">Read QR</string>
 </resources>
