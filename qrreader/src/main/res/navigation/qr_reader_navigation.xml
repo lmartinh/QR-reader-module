@@ -9,5 +9,9 @@
         android:id="@+id/qrReaderFragment"
         android:name="com.lmartinh.qrreader.internal.ui.QrReaderFragment"
         android:label="fragment_qr_reader"
-        tools:layout="@layout/fragment_qr_reader" />
+        tools:layout="@layout/fragment_qr_reader" >
+        <argument
+            android:name="timeout"
+            app:argType="long" />
+    </fragment>
 </navigation>

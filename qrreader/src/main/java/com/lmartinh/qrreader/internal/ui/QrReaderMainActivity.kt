@@ -12,6 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lmartinh.qrreader.R
 import com.lmartinh.qrreader.internal.QrException
 import com.lmartinh.qrreader.internal.QrReaderError
+import com.lmartinh.qrreader.internal.utils.Constants
 import timber.log.Timber
 
 internal class QrReaderMainActivity : AppCompatActivity() {
@@ -49,7 +50,7 @@ internal class QrReaderMainActivity : AppCompatActivity() {
                         dialog.dismiss()
                         val output = Intent()
                         output.putExtra(
-                            "result",
+                            Constants.RESULT_EXTRA,
                             QrReaderError(QrException.PERMISSION_NOT_GRANTED)
                         )
                         setResult(RESULT_OK, output)
@@ -68,6 +69,16 @@ internal class QrReaderMainActivity : AppCompatActivity() {
                 permissionArray
             )
         }
+    }
+
+    override fun onBackPressed() {
+        val output = Intent()
+        output.putExtra(
+            Constants.RESULT_EXTRA,
+            QrReaderError(QrException.CANCEL_BY_USER)
+        )
+        setResult(RESULT_OK, output)
+        this.finish()
     }
 
 }

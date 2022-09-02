@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.lmartinh.qrreader.databinding.FragmentQrReaderBinding
 import com.lmartinh.qrreader.internal.QrReaderCameraManager
 import com.lmartinh.qrreader.internal.QrReaderError
 import com.lmartinh.qrreader.internal.QrReaderResponse
 import com.lmartinh.qrreader.internal.QrReaderSuccess
 import com.lmartinh.qrreader.internal.observeOnce
+import com.lmartinh.qrreader.internal.utils.Constants
 import timber.log.Timber
 
 
@@ -21,13 +23,13 @@ internal class QrReaderFragment : Fragment() {
 
     private var _binding: FragmentQrReaderBinding? = null
     private val binding get() = _binding!!
-
+    private val arguments: QrReaderFragmentArgs by navArgs()
     private val viewModel: QrReaderViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentQrReaderBinding.inflate(inflater, container, false)
 
         val cameraManager = QrReaderCameraManager(
@@ -38,7 +40,7 @@ internal class QrReaderFragment : Fragment() {
         viewModel.setCameraManager(cameraManager)
 
         viewModel.startCamera(
-            5000
+            arguments.timeout
         )
         viewModel.qrResult.observeOnce(this) { qrData ->
             Timber.d("QR CODE: $qrData")
@@ -49,6 +51,10 @@ internal class QrReaderFragment : Fragment() {
             returnResponse(QrReaderError(exception))
         }
 
+        binding.qrReaderCameraLayout.qrReaderLayoutClose.setOnClickListener{
+            activity?.onBackPressed()
+        }
+
         return binding.root
     }
 
@@ -56,7 +62,7 @@ internal class QrReaderFragment : Fragment() {
 
         val output = Intent()
         output.putExtra(
-            "result", response
+            Constants.RESULT_EXTRA, response
         )
         requireActivity().setResult(AppCompatActivity.RESULT_OK, output)
         requireActivity().finish()

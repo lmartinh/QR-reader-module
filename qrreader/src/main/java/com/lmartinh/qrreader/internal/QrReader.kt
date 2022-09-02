@@ -7,11 +7,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.lmartinh.qrreader.internal.ui.QrReaderMainActivity
+import com.lmartinh.qrreader.internal.utils.Constants
 
 class QrReader {
 
     companion object{
-        const val TIMEOUT_15000 = 15000L
+        const val TIMEOUT_25000 = 25000L
         const val TIMEOUT_EXTRA = "timeout"
     }
 
@@ -29,7 +30,7 @@ class QrReader {
             if (activityResult.resultCode == Activity.RESULT_OK || activityResult.resultCode == Activity.RESULT_CANCELED) {
                 if (activityResult.data != null) {
                     val qrResult = activityResult.data.let {
-                        it?.getParcelableExtra<QrReaderResponse>("result")
+                        it?.getParcelableExtra<QrReaderResponse>(Constants.RESULT_EXTRA)
                     }
                     if (qrResult != null) {
                         output?.invoke(qrResult)
@@ -43,7 +44,7 @@ class QrReader {
         }
     }
 
-    fun launch(timeout: Long = TIMEOUT_15000, output: ((QrReaderResponse) -> Unit)) {
+    fun launch(timeout: Long = TIMEOUT_25000, output: ((QrReaderResponse) -> Unit)) {
         this.output = output
         if (context != null) {
             val intent = Intent(context, QrReaderMainActivity::class.java).apply {
