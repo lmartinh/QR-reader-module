@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lmartinh.qrreader.R
-import com.lmartinh.qrreader.internal.QrException
+import com.lmartinh.qrreader.internal.model.QrException
 import com.lmartinh.qrreader.internal.QrReaderError
 import com.lmartinh.qrreader.internal.utils.Constants
 import timber.log.Timber

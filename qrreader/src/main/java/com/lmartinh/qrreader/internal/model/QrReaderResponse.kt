@@ -1,6 +1,7 @@
 package com.lmartinh.qrreader.internal
 
 import android.os.Parcelable
+import com.lmartinh.qrreader.internal.model.QrException
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

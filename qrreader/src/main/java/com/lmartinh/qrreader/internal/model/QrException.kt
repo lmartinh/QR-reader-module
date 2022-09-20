@@ -1,4 +1,4 @@
-package com.lmartinh.qrreader.internal
+package com.lmartinh.qrreader.internal.model
 
 enum class QrException {
     TIMEOUT,

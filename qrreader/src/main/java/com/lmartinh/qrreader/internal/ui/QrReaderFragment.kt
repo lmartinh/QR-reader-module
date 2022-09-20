@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.lmartinh.qrreader.R
 import com.lmartinh.qrreader.databinding.FragmentQrReaderBinding
 import com.lmartinh.qrreader.internal.QrReaderCameraManager
 import com.lmartinh.qrreader.internal.QrReaderError
@@ -25,6 +26,7 @@ internal class QrReaderFragment : Fragment() {
     private val binding get() = _binding!!
     private val arguments: QrReaderFragmentArgs by navArgs()
     private val viewModel: QrReaderViewModel by viewModels()
+    private var flashOn = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +57,37 @@ internal class QrReaderFragment : Fragment() {
             activity?.onBackPressed()
         }
 
+        viewModel.cameraReady.observeOnce(this){
+            binding.qrReaderCameraLayout.qrReaderLayoutFlash.visibility = if (viewModel.cameraHasFlash()){
+                View.VISIBLE
+            }else{
+                View.GONE
+            }
+        }
+
+        binding.qrReaderCameraLayout.qrReaderLayoutFlash.setOnClickListener {
+            flashOn = !flashOn
+            viewModel.turnOnFlashLight(flashOn)
+            switchFlashImage()
+        }
+
         return binding.root
+    }
+
+    private fun switchFlashImage(){
+        binding.qrReaderCameraLayout.qrReaderLayoutFlash.setImageResource(
+            if (flashOn){
+                R.drawable.ic_qr_reader_flash_on
+            }else{
+                R.drawable.ic_qr_reader_flash_off
+            }
+
+        )
+
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun returnResponse(response: QrReaderResponse){

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="qr_reader_layout_close_padding">16dp</dimen>
+    <dimen name="qr_reader_layout_flash_padding">16dp</dimen>
+    <dimen name="qr_reader_layout_variable">0dp</dimen>
+    <dimen name="qr_reader_layout_square_margin">48dp</dimen>
+</resources>

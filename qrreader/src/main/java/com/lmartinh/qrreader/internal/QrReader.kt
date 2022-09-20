@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.lmartinh.qrreader.internal.model.QrException
 import com.lmartinh.qrreader.internal.ui.QrReaderMainActivity
 import com.lmartinh.qrreader.internal.utils.Constants
 

@@ -2,6 +2,9 @@ package com.lmartinh.qrreader.internal
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
+import android.hardware.camera2.CameraAccessException
+import android.hardware.camera2.CameraManager
 import android.media.Image
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -12,6 +15,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.MutableLiveData
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
@@ -46,6 +51,7 @@ internal class QrReaderCameraManager(
     private var lensFacing: Int = CameraSelector.LENS_FACING_FRONT
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
+    lateinit var cameraReady: MutableLiveData<Unit>
 
     fun start(onQrReaderResult: (result: String) -> Unit) {
         this.onQrReaderResult = onQrReaderResult
@@ -94,6 +100,7 @@ internal class QrReaderCameraManager(
             )
 
             previewView.setSurfaceProvider(viewFinder.surfaceProvider)
+            cameraReady.postValue(Unit)
         } catch (exception: Exception) {
             Timber.e("Bind camera error: $exception")
         }
@@ -147,6 +154,12 @@ internal class QrReaderCameraManager(
         )
 
         return analyzer
+    }
+
+    fun turnOnFlashLight(state: Boolean)  = camera?.cameraControl?.enableTorch(state)
+
+    fun hasFlash() : Boolean {
+        return camera?.cameraInfo?.hasFlashUnit() ?: false
     }
 
     private class ImageScanner(val onResult: (result: Image, rotation: Int) -> Unit) :

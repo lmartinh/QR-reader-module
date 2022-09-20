@@ -5,7 +5,7 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lmartinh.qrreader.internal.QrException
+import com.lmartinh.qrreader.internal.model.QrException
 import com.lmartinh.qrreader.internal.QrReaderCameraManager
 
 internal class QrReaderViewModel: ViewModel() {
@@ -19,12 +19,16 @@ internal class QrReaderViewModel: ViewModel() {
     private val _error: MutableLiveData<QrException> = MutableLiveData()
     val error: LiveData<QrException> = _error
 
+    private val _cameraReady: MutableLiveData<Unit> = MutableLiveData()
+    val cameraReady: LiveData<Unit> = _cameraReady
+
     fun setCameraManager(cameraManager: QrReaderCameraManager) {
         this.cameraManager = cameraManager
     }
 
     fun startCamera(timeout: Long) {
         try {
+            cameraManager.cameraReady = _cameraReady
             cameraManager.start(onQrReaderResult = ::onQrReaderResult)
             startTimeout(timeout)
         }catch (exception: Exception){
@@ -51,6 +55,10 @@ internal class QrReaderViewModel: ViewModel() {
     fun stopCamera() {
         cameraManager.stop()
     }
+
+    fun cameraHasFlash() : Boolean = cameraManager.hasFlash()
+
+    fun turnOnFlashLight(state: Boolean) = cameraManager.turnOnFlashLight(state)
 
     private fun stopTimeout(){
         timeoutHandler.removeCallbacksAndMessages(null)
