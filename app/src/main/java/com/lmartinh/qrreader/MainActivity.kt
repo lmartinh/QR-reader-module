@@ -1,8 +1,12 @@
 package com.lmartinh.qrreader
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.webkit.URLUtil
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lmartinh.qrreader.databinding.ActivityMainBinding
 import com.lmartinh.qrreader.internal.QrReader
 import com.lmartinh.qrreader.internal.QrReaderError
@@ -29,10 +33,32 @@ class MainActivity : AppCompatActivity() {
                     }
                     is QrReaderSuccess -> {
                         Timber.d("QR READER: ${qrReaderResponse.data}")
-                        Toast.makeText(this,"QR READER: ${qrReaderResponse.data}", Toast.LENGTH_LONG).show()
+                        showAlert(qrReaderResponse.data)
                     }
                 }
             }
         }
     }
+
+    private fun showAlert(message: String){
+        MaterialAlertDialogBuilder(this)
+            .setCancelable(false)
+            .setMessage(message)
+           .setPositiveButton(resources.getString(R.string.qr_reader_text_open)) { dialog, _ ->
+                dialog.dismiss()
+               if (URLUtil.isValidUrl(message)){
+                   val browserIntent =
+                       Intent(Intent.ACTION_VIEW, Uri.parse(message))
+                   startActivity(browserIntent)
+               }else{
+                   Toast.makeText(this,"URL ERROR", Toast.LENGTH_LONG).show()
+               }
+
+            }
+            .setNegativeButton(resources.getString(R.string.qr_reader_text_cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
 }

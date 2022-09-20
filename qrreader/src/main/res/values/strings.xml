@@ -1,5 +1,7 @@
 <resources>
     <string name="qr_reader_text_permission_denied">Permiso denegado.</string>
     <string name="qr_reader_text_exit">Salir</string>
+    <string name="qr_reader_text_cancel">Cancelar</string>
+    <string name="qr_reader_text_open">Abrir</string>
     <string name="qr_reader_text_dimension_ratio_1_1" translatable="false">1:1</string>
 </resources>

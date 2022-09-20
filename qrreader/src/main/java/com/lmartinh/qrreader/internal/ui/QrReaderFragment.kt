@@ -86,10 +86,6 @@ internal class QrReaderFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun returnResponse(response: QrReaderResponse){
 
         val output = Intent()
