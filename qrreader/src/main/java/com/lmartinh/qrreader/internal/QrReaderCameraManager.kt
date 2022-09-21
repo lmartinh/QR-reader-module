@@ -2,9 +2,6 @@ package com.lmartinh.qrreader.internal
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraManager
 import android.media.Image
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -15,7 +12,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.MutableLiveData
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
@@ -23,9 +19,9 @@ import com.google.zxing.DecodeHintType
 import com.google.zxing.MultiFormatReader
 import com.google.zxing.PlanarYUVLuminanceSource
 import com.google.zxing.common.HybridBinarizer
+import timber.log.Timber
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import timber.log.Timber
 
 internal class QrReaderCameraManager(
     private val owner: ComponentActivity,
@@ -143,12 +139,11 @@ internal class QrReaderCameraManager(
                     val result = reader.decode(binaryBitmap)
                     onQrReaderResult(result.text)
                 } catch (exception: Exception) {
-                    if (exception is com.google.zxing.NotFoundException){
+                    if (exception is com.google.zxing.NotFoundException) {
                         Timber.e("QR NOT FOUND: $exception")
-                    }else{
+                    } else {
                         Timber.e("Set camera analyzer error: $exception")
                     }
-
                 }
             }
         )
@@ -156,9 +151,9 @@ internal class QrReaderCameraManager(
         return analyzer
     }
 
-    fun turnOnFlashLight(state: Boolean)  = camera?.cameraControl?.enableTorch(state)
+    fun turnOnFlashLight(state: Boolean) = camera?.cameraControl?.enableTorch(state)
 
-    fun hasFlash() : Boolean {
+    fun hasFlash(): Boolean {
         return camera?.cameraInfo?.hasFlashUnit() ?: false
     }
 
@@ -174,5 +169,4 @@ internal class QrReaderCameraManager(
             imageProxy.close()
         }
     }
-
 }

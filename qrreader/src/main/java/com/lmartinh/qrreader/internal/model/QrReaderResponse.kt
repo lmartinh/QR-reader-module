@@ -5,7 +5,7 @@ import com.lmartinh.qrreader.internal.model.QrException
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-sealed class QrReaderResponse: Parcelable
+sealed class QrReaderResponse : Parcelable
 
-open class QrReaderSuccess(val data: String): QrReaderResponse()
-open class QrReaderError(val exception: QrException): QrReaderResponse()
+open class QrReaderSuccess(val data: String) : QrReaderResponse()
+open class QrReaderError(val exception: QrException) : QrReaderResponse()

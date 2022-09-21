@@ -15,7 +15,11 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    companion object {
+        const val TIMEOUT = 15000L
+    }
+
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -25,40 +29,41 @@ class MainActivity : AppCompatActivity() {
         qrReader.init(this)
 
         binding.mainButton.setOnClickListener {
-            qrReader.launch(15000){ qrReaderResponse ->
-                when(qrReaderResponse){
+            qrReader.launch(TIMEOUT) { qrReaderResponse ->
+                when (qrReaderResponse) {
                     is QrReaderError -> {
                         Timber.d("QR READER ERROR: ${qrReaderResponse.exception}")
-                        Toast.makeText(this,"QR READER ERROR: ${qrReaderResponse.exception}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "QR READER ERROR: ${qrReaderResponse.exception}", Toast.LENGTH_LONG).show()
                     }
                     is QrReaderSuccess -> {
                         Timber.d("QR READER: ${qrReaderResponse.data}")
                         showAlert(qrReaderResponse.data)
+                    }
+                    else -> {
+                        Timber.d("QR READER RESPONSE: $qrReaderResponse")
                     }
                 }
             }
         }
     }
 
-    private fun showAlert(message: String){
+    private fun showAlert(message: String) {
         MaterialAlertDialogBuilder(this)
             .setCancelable(false)
             .setMessage(message)
-           .setPositiveButton(resources.getString(R.string.qr_reader_text_open)) { dialog, _ ->
+            .setPositiveButton(resources.getString(R.string.qr_reader_text_open)) { dialog, _ ->
                 dialog.dismiss()
-               if (URLUtil.isValidUrl(message)){
-                   val browserIntent =
-                       Intent(Intent.ACTION_VIEW, Uri.parse(message))
-                   startActivity(browserIntent)
-               }else{
-                   Toast.makeText(this,"URL ERROR", Toast.LENGTH_LONG).show()
-               }
-
+                if (URLUtil.isValidUrl(message)) {
+                    val browserIntent =
+                        Intent(Intent.ACTION_VIEW, Uri.parse(message))
+                    startActivity(browserIntent)
+                } else {
+                    Toast.makeText(this, "URL ERROR", Toast.LENGTH_LONG).show()
+                }
             }
             .setNegativeButton(resources.getString(R.string.qr_reader_text_cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
     }
-
 }

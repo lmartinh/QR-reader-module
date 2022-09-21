@@ -3,15 +3,15 @@ package com.lmartinh.qrreader.internal.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lmartinh.qrreader.R
-import com.lmartinh.qrreader.internal.model.QrException
 import com.lmartinh.qrreader.internal.QrReaderError
+import com.lmartinh.qrreader.internal.model.QrException
 import com.lmartinh.qrreader.internal.utils.Constants
 import timber.log.Timber
 
@@ -80,5 +80,4 @@ internal class QrReaderMainActivity : AppCompatActivity() {
         setResult(RESULT_OK, output)
         this.finish()
     }
-
 }

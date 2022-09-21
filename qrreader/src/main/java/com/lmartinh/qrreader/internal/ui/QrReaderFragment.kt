@@ -19,7 +19,6 @@ import com.lmartinh.qrreader.internal.observeOnce
 import com.lmartinh.qrreader.internal.utils.Constants
 import timber.log.Timber
 
-
 internal class QrReaderFragment : Fragment() {
 
     private var _binding: FragmentQrReaderBinding? = null
@@ -29,7 +28,8 @@ internal class QrReaderFragment : Fragment() {
     private var flashOn = false
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentQrReaderBinding.inflate(inflater, container, false)
@@ -49,18 +49,18 @@ internal class QrReaderFragment : Fragment() {
             returnResponse(QrReaderSuccess(qrData))
         }
 
-        viewModel.error.observeOnce(this){ exception ->
+        viewModel.error.observeOnce(this) { exception ->
             returnResponse(QrReaderError(exception))
         }
 
-        binding.qrReaderCameraLayout.qrReaderLayoutClose.setOnClickListener{
+        binding.qrReaderCameraLayout.qrReaderLayoutClose.setOnClickListener {
             activity?.onBackPressed()
         }
 
-        viewModel.cameraReady.observeOnce(this){
-            binding.qrReaderCameraLayout.qrReaderLayoutFlash.visibility = if (viewModel.cameraHasFlash()){
+        viewModel.cameraReady.observeOnce(this) {
+            binding.qrReaderCameraLayout.qrReaderLayoutFlash.visibility = if (viewModel.cameraHasFlash()) {
                 View.VISIBLE
-            }else{
+            } else {
                 View.GONE
             }
         }
@@ -74,19 +74,18 @@ internal class QrReaderFragment : Fragment() {
         return binding.root
     }
 
-    private fun switchFlashImage(){
+    private fun switchFlashImage() {
         binding.qrReaderCameraLayout.qrReaderLayoutFlash.setImageResource(
-            if (flashOn){
+            if (flashOn) {
                 R.drawable.ic_qr_reader_flash_on
-            }else{
+            } else {
                 R.drawable.ic_qr_reader_flash_off
             }
 
         )
-
     }
 
-    private fun returnResponse(response: QrReaderResponse){
+    private fun returnResponse(response: QrReaderResponse) {
 
         val output = Intent()
         output.putExtra(
@@ -101,5 +100,4 @@ internal class QrReaderFragment : Fragment() {
         _binding = null
         super.onDestroyView()
     }
-
 }

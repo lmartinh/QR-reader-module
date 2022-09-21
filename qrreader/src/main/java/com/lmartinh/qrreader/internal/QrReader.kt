@@ -12,7 +12,7 @@ import com.lmartinh.qrreader.internal.utils.Constants
 
 class QrReader {
 
-    companion object{
+    companion object {
         const val TIMEOUT_25000 = 25000L
         const val TIMEOUT_EXTRA = "timeout"
     }
@@ -35,11 +35,9 @@ class QrReader {
                     }
                     if (qrResult != null) {
                         output?.invoke(qrResult)
-
                     } else {
                         output?.invoke(QrReaderError(QrException.CAMERA_MANAGER_ERROR))
                     }
-
                 }
             }
         }
